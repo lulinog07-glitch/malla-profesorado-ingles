@@ -3,133 +3,264 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Malla Interactiva · Profesorado de Inglés</title>
+  <title>🌿 Mi Malla · Profesorado de Inglés</title>
   <style>
     :root{
-      --green-900:#2f6f4e;
-      --green-600:#6fbf9c;
-      --green-300:#c7ded3;
-      --green-100:#e8f5ee;
-      --bg:#f7fbf9;
+      --green-900:#1f4f3a;   /* títulos */
+      --green-700:#2f6f4e;   /* headers */
+      --green-600:#5fbf9a;   /* aprobada */
+      --green-400:#9ad7bf;   /* regular */
+      --green-200:#e0f2ea;   /* habilitada */
+      --green-100:#f4fbf8;   /* fondo */
+      --green-050:#edf6f2;   /* tarjetas suaves */
+      --disabled:#d7e4de;    /* bloqueada */
     }
+
     *{box-sizing:border-box}
-    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial,sans-serif;background:var(--bg);color:#1f2937}
-    header{padding:24px;text-align:center}
-    header h1{margin:0 0 6px;font-size:1.6rem}
-    header p{margin:0;color:#4b5563}
-    main{padding:16px}
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
-    .year{background:white;border-radius:16px;box-shadow:0 10px 24px rgba(0,0,0,.06);overflow:hidden}
-    .year h2{margin:0;padding:14px 16px;background:var(--green-900);color:white}
-    .list{padding:12px;display:grid;gap:10px}
-    .card{border-radius:14px;padding:12px 14px;background:var(--green-300);transition:.25s;display:flex;align-items:center;justify-content:space-between;gap:8px}
-    .card.enabled{background:var(--green-100)}
-    .card.done{background:var(--green-600);color:#0b3d2e}
-    .card h3{margin:0;font-size:.95rem;font-weight:600}
-    .card small{opacity:.8}
-    .controls{display:flex;gap:6px}
-    select{border-radius:10px;border:1px solid #d1d5db;padding:6px 8px;background:white}
-    footer{padding:20px;text-align:center;color:#6b7280}
-    .badge{font-size:.75rem;padding:4px 8px;border-radius:999px;background:#e5f2ec;color:#1b5e46}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial,sans-serif;
+      background:linear-gradient(180deg,var(--green-100),#ffffff);
+      color:#1f2937
+    }
+
+    header{
+      padding:28px 20px 22px;
+      text-align:center
+    }
+    header h1{
+      margin:0 0 8px;
+      font-size:1.7rem;
+      color:var(--green-900)
+    }
+    header p{
+      margin:0 0 12px;
+      color:#4b5563
+    }
+    .quote{
+      display:inline-block;
+      padding:8px 14px;
+      border-radius:999px;
+      background:var(--green-050);
+      color:#245c45;
+      font-size:.9rem
+    }
+
+    .progress{
+      max-width:980px;
+      margin:10px auto 0;
+      padding:0 16px;
+      display:flex;
+      justify-content:center
+    }
+    .progress-box{
+      background:white;
+      border-radius:14px;
+      padding:10px 16px;
+      box-shadow:0 8px 18px rgba(0,0,0,.06);
+      font-weight:600;
+      color:#245c45
+    }
+
+    main{padding:18px}
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      gap:18px;
+      max-width:1200px;
+      margin:0 auto
+    }
+
+    .year{
+      background:white;
+      border-radius:18px;
+      box-shadow:0 12px 26px rgba(0,0,0,.08);
+      overflow:hidden
+    }
+
+    .year h2{
+      margin:0;
+      padding:14px 18px;
+      background:linear-gradient(135deg,var(--green-700),var(--green-900));
+      color:white;
+      font-size:1.1rem
+    }
+
+    .list{
+      padding:14px;
+      display:grid;
+      gap:12px
+    }
+
+    .card{
+      border-radius:16px;
+      padding:12px 14px;
+      background:var(--disabled);
+      transition:all .25s ease;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px
+    }
+
+    .card.enabled{background:var(--green-200)}
+    .card.regular{background:var(--green-400)}
+    .card.done{background:var(--green-600); color:#0b3d2e}
+
+    .card h3{
+      margin:0;
+      font-size:.95rem;
+      font-weight:600
+    }
+
+    .emoji{margin-right:6px}
+
+    .badge{
+      display:inline-block;
+      margin-top:4px;
+      font-size:.72rem;
+      padding:4px 8px;
+      border-radius:999px;
+      background:#e6f4ee;
+      color:#1b5e46
+    }
+
+    select{
+      border-radius:12px;
+      border:1px solid #d1d5db;
+      padding:6px 8px;
+      background:white
+    }
+
+    footer{
+      padding:26px 16px;
+      text-align:center;
+      color:#6b7280;
+      font-size:.85rem
+    }
   </style>
 </head>
 <body>
-  <header>
-    <h1>🌿 Malla Interactiva – Profesorado de Inglés</h1>
-    <p>Marcá materias y mirá cómo se desbloquean las siguientes</p>
-  </header>
-  <main>
-    <section class="grid" id="app"></section>
-  </main>
-  <footer>
-    Hecho con 💚 · Pensado para GitHub Pages
-  </footer>
+
+<header>
+  <h1>🌿 Mi Malla · Profesorado de Inglés</h1>
+  <p>Marcá materias, mirá cómo se desbloquean y celebrá tu progreso</p>
+  <span class="quote">Paso a paso también es avanzar 🌱</span>
+</header>
+
+<div class="progress">
+  <div class="progress-box" id="progressBox">Progreso: 0 / 0</div>
+</div>
+
+<main>
+  <section class="grid" id="app"></section>
+</main>
+
+<footer>
+  Hecho con 💚 para acompañarte durante toda la carrera
+</footer>
 
 <script>
-// ====== Datos ======
+// ================= DATOS =================
 const data = [
   { year:'1° Año', items:[
-    {id:'ped', name:'Pedagogía'},
-    {id:'tcd', name:'Teoría del Currículum y Didáctica'},
-    {id:'psi', name:'Psicología Educativa'},
-    {id:'pca', name:'Psicología y Cultura del Alumno'},
-    {id:'li1', name:'Lengua Inglesa I'},
-    {id:'gi1', name:'Gramática Inglesa I'},
-    {id:'fd1', name:'Fonología y Dicción I'},
-    {id:'es1', name:'Estudios Sociales I'},
-    {id:'td1', name:'Taller de Docencia I'}
+    {id:'ped', name:'Pedagogía', emoji:'🧠'},
+    {id:'tcd', name:'Teoría del Currículum y Didáctica', emoji:'📚'},
+    {id:'psi', name:'Psicología Educativa', emoji:'🧠'},
+    {id:'pca', name:'Psicología y Cultura del Alumno', emoji:'👧'},
+    {id:'li1', name:'Lengua Inglesa I', emoji:'📘'},
+    {id:'gi1', name:'Gramática Inglesa I', emoji:'✍️'},
+    {id:'fd1', name:'Fonología y Dicción I', emoji:'🎤'},
+    {id:'es1', name:'Estudios Sociales I', emoji:'🌍'},
+    {id:'td1', name:'Taller de Docencia I', emoji:'🎓'}
   ]},
   { year:'2° Año', items:[
-    {id:'hpe', name:'Historia y Política Educativa Argentina', req:['ped']},
-    {id:'ogi', name:'Organización y Gestión Institucional', req:['ped']},
-    {id:'psiL', name:'Psicolingüística', req:['psi','li1','gi1']},
-    {id:'li2', name:'Lengua Inglesa II', req:['li1']},
-    {id:'gi2', name:'Gramática Inglesa II', req:['gi1','li1']},
-    {id:'fd2', name:'Fonología y Dicción II', req:['fd1','li1']},
-    {id:'es2', name:'Estudios Sociales II', req:['es1','li1']},
-    {id:'lit1', name:'Literatura en Lengua Inglesa I', req:['li1','es1']},
-    {id:'td2', name:'Taller de Docencia II', req:['td1']}
+    {id:'hpe', name:'Historia y Política Educativa', emoji:'🏛️', req:['ped']},
+    {id:'ogi', name:'Organización y Gestión Institucional', emoji:'🏫', req:['ped']},
+    {id:'psiL', name:'Psicolingüística', emoji:'🧠', req:['psi','li1','gi1']},
+    {id:'li2', name:'Lengua Inglesa II', emoji:'📗', req:['li1']},
+    {id:'gi2', name:'Gramática Inglesa II', emoji:'✍️', req:['gi1','li1']},
+    {id:'fd2', name:'Fonología y Dicción II', emoji:'🎤', req:['fd1','li1']},
+    {id:'es2', name:'Estudios Sociales II', emoji:'🌍', req:['es1','li1']},
+    {id:'lit1', name:'Literatura en Lengua Inglesa I', emoji:'📖', req:['li1','es1']},
+    {id:'td2', name:'Taller de Docencia II', emoji:'🎓', req:['td1']}
   ]},
   { year:'3° Año', items:[
-    {id:'fil', name:'Filosofía'},
-    {id:'eti', name:'Ética Profesional'},
-    {id:'li3', name:'Lengua Inglesa III', req:['li2','gi2','fd2']},
-    {id:'fd3', name:'Fonología y Dicción III', req:['fd2','li2']},
-    {id:'lit2', name:'Literatura en Lengua Inglesa II', req:['lit1','li2','es2']},
-    {id:'ld', name:'Lingüística del Discurso', req:['li2','gi2','fd2']},
-    {id:'de1', name:'Didáctica Específica I', req:['li2','gi2','fd2','psiL']},
-    {id:'edi', name:'EDI'},
-    {id:'td3', name:'Taller de Docencia III', req:['td2']}
+    {id:'fil', name:'Filosofía', emoji:'💭'},
+    {id:'eti', name:'Ética Profesional', emoji:'⚖️'},
+    {id:'li3', name:'Lengua Inglesa III', emoji:'📘', req:['li2','gi2','fd2']},
+    {id:'fd3', name:'Fonología y Dicción III', emoji:'🎤', req:['fd2','li2']},
+    {id:'lit2', name:'Literatura en Lengua Inglesa II', emoji:'📖', req:['lit1','li2','es2']},
+    {id:'ld', name:'Lingüística del Discurso', emoji:'🗣️', req:['li2','gi2','fd2']},
+    {id:'de1', name:'Didáctica Específica I', emoji:'✏️', req:['li2','gi2','fd2','psiL']},
+    {id:'edi', name:'EDI', emoji:'✨'},
+    {id:'td3', name:'Taller de Docencia III', emoji:'🎓', req:['td2']}
   ]},
   { year:'4° Año', items:[
-    {id:'eco', name:'ECO I', req:['lit2','li3','fd3']},
-    {id:'fd4', name:'Fonología y Dicción IV', req:['fd3']},
-    {id:'li4', name:'Lengua Inglesa IV', req:['li3']},
-    {id:'sis', name:'Seminario de Integración y Síntesis', req:['td1','td2','td3']},
-    {id:'td4', name:'Taller de Docencia IV', req:['td3']}
+    {id:'eco', name:'ECO I', emoji:'🌱', req:['lit2','li3','fd3']},
+    {id:'fd4', name:'Fonología y Dicción IV', emoji:'🎤', req:['fd3']},
+    {id:'li4', name:'Lengua Inglesa IV', emoji:'📕', req:['li3']},
+    {id:'sis', name:'Seminario de Integración y Síntesis', emoji:'🧩', req:['td1','td2','td3']},
+    {id:'td4', name:'Taller de Docencia IV', emoji:'🎓', req:['td3']}
   ]}
 ];
 
-// ====== Estado (localStorage) ======
+// ================= ESTADO =================
 const state = JSON.parse(localStorage.getItem('malla-state')||'{}');
 const setState = (id,val)=>{state[id]=val; localStorage.setItem('malla-state',JSON.stringify(state)); render();};
 const isDone = id => state[id]==='Aprobada';
 
-// ====== Lógica ======
+// ================= LÓGICA =================
 const enabled = item => !item.req || item.req.every(r=>isDone(r));
 
-// ====== Render ======
+// ================= RENDER =================
 const app = document.getElementById('app');
+const progressBox = document.getElementById('progressBox');
+
 function render(){
   app.innerHTML='';
+  let total = 0;
+  let done = 0;
+
   data.forEach(block=>{
     const y = document.createElement('section'); y.className='year';
     y.innerHTML = `<h2>${block.year}</h2>`;
     const list = document.createElement('div'); list.className='list';
+
     block.items.forEach(it=>{
-      const card = document.createElement('div');
+      total++;
+      if(isDone(it.id)) done++;
+
       const en = enabled(it);
-      card.className = 'card ' + (en?'enabled':'') + (isDone(it.id)?' done':'');
+      const card = document.createElement('div');
+      card.className = 'card ' + (en?'enabled':'') + (state[it.id]==='Regular'?' regular':'') + (isDone(it.id)?' done':'');
+
       card.innerHTML = `
         <div>
-          <h3>${it.name}</h3>
-          ${it.req?`<small class="badge">Req: ${it.req.join(', ')}</small>`:''}
+          <h3><span class="emoji">${it.emoji}</span>${it.name}</h3>
+          ${it.req?`<span class="badge">🔓 Requiere: ${it.req.join(', ')}</span>`:''}
         </div>
-        <div class="controls">
+        <div>
           <select ${en?'':'disabled'}>
-            <option ${state[it.id]?'' :'selected'}></option>
+            <option value=""></option>
             <option ${state[it.id]==='Pendiente'?'selected':''}>Pendiente</option>
             <option ${state[it.id]==='Regular'?'selected':''}>Regular</option>
             <option ${state[it.id]==='Aprobada'?'selected':''}>Aprobada</option>
           </select>
         </div>`;
-      const sel = card.querySelector('select');
-      sel.addEventListener('change',e=>setState(it.id,e.target.value));
+
+      card.querySelector('select').addEventListener('change',e=>setState(it.id,e.target.value));
       list.appendChild(card);
     });
-    y.appendChild(list); app.appendChild(y);
+
+    y.appendChild(list);
+    app.appendChild(y);
   });
+
+  progressBox.textContent = `Progreso: ${done} / ${total} materias aprobadas 🌿`;
 }
+
 render();
 </script>
 </body>
