@@ -2,265 +2,153 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
+  <title>UniMalla · Lou</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🌿 Mi Malla · Profesorado de Inglés</title>
   <style>
     :root{
-      --green-900:#1f4f3a;   /* títulos */
-      --green-700:#2f6f4e;   /* headers */
-      --green-600:#5fbf9a;   /* aprobada */
-      --green-400:#9ad7bf;   /* regular */
-      --green-200:#e0f2ea;   /* habilitada */
-      --green-100:#f4fbf8;   /* fondo */
-      --green-050:#edf6f2;   /* tarjetas suaves */
-      --disabled:#d7e4de;    /* bloqueada */
+      --verde1:#e8f5e9;
+      --verde2:#c8e6c9;
+      --verde3:#81c784;
+      --verde4:#388e3c;
+      --beige:#f5f3ef;
     }
-
-    *{box-sizing:border-box}
     body{
       margin:0;
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial,sans-serif;
-      background:linear-gradient(180deg,var(--green-100),#ffffff);
-      color:#1f2937
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(120deg,var(--verde1),var(--beige));
+      color:#2e2e2e;
     }
-
     header{
-      padding:28px 20px 22px;
-      text-align:center
+      padding:20px;
+      text-align:center;
+      background:var(--verde3);
+      color:white;
+      font-size:1.6rem;
+      box-shadow:0 4px 10px rgba(0,0,0,.1);
     }
-    header h1{
-      margin:0 0 8px;
-      font-size:1.7rem;
-      color:var(--green-900)
-    }
-    header p{
-      margin:0 0 12px;
-      color:#4b5563
-    }
-    .quote{
-      display:inline-block;
-      padding:8px 14px;
-      border-radius:999px;
-      background:var(--green-050);
-      color:#245c45;
-      font-size:.9rem
-    }
-
-    .progress{
-      max-width:980px;
-      margin:10px auto 0;
-      padding:0 16px;
+    nav{
       display:flex;
-      justify-content:center
+      justify-content:center;
+      gap:10px;
+      padding:10px;
+      background:var(--verde2);
+      flex-wrap:wrap;
     }
-    .progress-box{
+    nav button{
+      border:none;
       background:white;
-      border-radius:14px;
-      padding:10px 16px;
-      box-shadow:0 8px 18px rgba(0,0,0,.06);
+      padding:8px 14px;
+      border-radius:20px;
+      cursor:pointer;
       font-weight:600;
-      color:#245c45
+      box-shadow:0 2px 6px rgba(0,0,0,.1);
     }
-
-    main{padding:18px}
-
+    section{
+      display:none;
+      padding:20px;
+      max-width:1000px;
+      margin:auto;
+    }
+    section.active{display:block;}
+    .card{
+      background:white;
+      padding:15px;
+      border-radius:18px;
+      margin-bottom:15px;
+      box-shadow:0 4px 10px rgba(0,0,0,.08);
+    }
     .grid{
       display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-      gap:18px;
-      max-width:1200px;
-      margin:0 auto
+      grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+      gap:12px;
     }
-
-    .year{
-      background:white;
-      border-radius:18px;
-      box-shadow:0 12px 26px rgba(0,0,0,.08);
-      overflow:hidden
+    .materia{
+      padding:12px;
+      border-radius:14px;
+      background:var(--verde1);
+      cursor:pointer;
+      font-weight:600;
     }
-
-    .year h2{
-      margin:0;
-      padding:14px 18px;
-      background:linear-gradient(135deg,var(--green-700),var(--green-900));
-      color:white;
-      font-size:1.1rem
-    }
-
-    .list{
-      padding:14px;
-      display:grid;
-      gap:12px
-    }
-
-    .card{
-      border-radius:16px;
-      padding:12px 14px;
-      background:var(--disabled);
-      transition:all .25s ease;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px
-    }
-
-    .card.enabled{background:var(--green-200)}
-    .card.regular{background:var(--green-400)}
-    .card.done{background:var(--green-600); color:#0b3d2e}
-
-    .card h3{
-      margin:0;
-      font-size:.95rem;
-      font-weight:600
-    }
-
-    .emoji{margin-right:6px}
-
-    .badge{
-      display:inline-block;
-      margin-top:4px;
-      font-size:.72rem;
-      padding:4px 8px;
-      border-radius:999px;
-      background:#e6f4ee;
-      color:#1b5e46
-    }
-
-    select{
-      border-radius:12px;
-      border:1px solid #d1d5db;
-      padding:6px 8px;
-      background:white
-    }
-
+    .aprobada{background:var(--verde3); color:white;}
+    .regular{background:var(--verde2);}
+    .pendiente{background:#eee;}
     footer{
-      padding:26px 16px;
       text-align:center;
-      color:#6b7280;
-      font-size:.85rem
+      padding:20px;
+      font-size:.9rem;
+      opacity:.7;
     }
   </style>
 </head>
 <body>
+<header>🌿 UniMalla · Lou</header>
+<nav>
+  <button onclick="show('dash')">🏠 Dashboard</button>
+  <button onclick="show('malla')">🧩 Malla</button>
+  <button onclick="show('notas')">📝 Notas</button>
+  <button onclick="show('cal')">📅 Calendario</button>
+  <button onclick="show('prog')">📊 Progreso</button>
+</nav>
 
-<header>
-  <h1>🌿 Mi Malla · Profesorado de Inglés</h1>
-  <p>Marcá materias, mirá cómo se desbloquean y celebrá tu progreso</p>
-  <span class="quote">Paso a paso también es avanzar 🌱</span>
-</header>
+<section id="dash" class="active">
+  <div class="card">
+    <h2>✨ Bienvenida, Lou</h2>
+    <p>Este es tu espacio académico personal. Todo lo que marques se guarda automáticamente.</p>
+  </div>
+</section>
 
-<div class="progress">
-  <div class="progress-box" id="progressBox">Progreso: 0 / 0</div>
-</div>
+<section id="malla">
+  <h2>🧩 Malla</h2>
+  <div class="grid" id="materias"></div>
+</section>
 
-<main>
-  <section class="grid" id="app"></section>
-</main>
+<section id="notas">
+  <h2>📝 Mis notas</h2>
+  <div class="card">Próximamente: carga de notas numéricas</div>
+</section>
 
-<footer>
-  Hecho con 💚 para acompañarte durante toda la carrera
-</footer>
+<section id="cal">
+  <h2>📅 Calendario</h2>
+  <div class="card">Próximamente: calendario académico</div>
+</section>
+
+<section id="prog">
+  <h2>📊 Progreso</h2>
+  <div class="card">Aquí verás gráficos y avances</div>
+</section>
+
+<footer>Hecho con 💚 para Lou</footer>
 
 <script>
-// ================= DATOS =================
-const data = [
-  { year:'1° Año', items:[
-    {id:'ped', name:'Pedagogía', emoji:'🧠'},
-    {id:'tcd', name:'Teoría del Currículum y Didáctica', emoji:'📚'},
-    {id:'psi', name:'Psicología Educativa', emoji:'🧠'},
-    {id:'pca', name:'Psicología y Cultura del Alumno', emoji:'👧'},
-    {id:'li1', name:'Lengua Inglesa I', emoji:'📘'},
-    {id:'gi1', name:'Gramática Inglesa I', emoji:'✍️'},
-    {id:'fd1', name:'Fonología y Dicción I', emoji:'🎤'},
-    {id:'es1', name:'Estudios Sociales I', emoji:'🌍'},
-    {id:'td1', name:'Taller de Docencia I', emoji:'🎓'}
-  ]},
-  { year:'2° Año', items:[
-    {id:'hpe', name:'Historia y Política Educativa', emoji:'🏛️', req:['ped']},
-    {id:'ogi', name:'Organización y Gestión Institucional', emoji:'🏫', req:['ped']},
-    {id:'psiL', name:'Psicolingüística', emoji:'🧠', req:['psi','li1','gi1']},
-    {id:'li2', name:'Lengua Inglesa II', emoji:'📗', req:['li1']},
-    {id:'gi2', name:'Gramática Inglesa II', emoji:'✍️', req:['gi1','li1']},
-    {id:'fd2', name:'Fonología y Dicción II', emoji:'🎤', req:['fd1','li1']},
-    {id:'es2', name:'Estudios Sociales II', emoji:'🌍', req:['es1','li1']},
-    {id:'lit1', name:'Literatura en Lengua Inglesa I', emoji:'📖', req:['li1','es1']},
-    {id:'td2', name:'Taller de Docencia II', emoji:'🎓', req:['td1']}
-  ]},
-  { year:'3° Año', items:[
-    {id:'fil', name:'Filosofía', emoji:'💭'},
-    {id:'eti', name:'Ética Profesional', emoji:'⚖️'},
-    {id:'li3', name:'Lengua Inglesa III', emoji:'📘', req:['li2','gi2','fd2']},
-    {id:'fd3', name:'Fonología y Dicción III', emoji:'🎤', req:['fd2','li2']},
-    {id:'lit2', name:'Literatura en Lengua Inglesa II', emoji:'📖', req:['lit1','li2','es2']},
-    {id:'ld', name:'Lingüística del Discurso', emoji:'🗣️', req:['li2','gi2','fd2']},
-    {id:'de1', name:'Didáctica Específica I', emoji:'✏️', req:['li2','gi2','fd2','psiL']},
-    {id:'edi', name:'EDI', emoji:'✨'},
-    {id:'td3', name:'Taller de Docencia III', emoji:'🎓', req:['td2']}
-  ]},
-  { year:'4° Año', items:[
-    {id:'eco', name:'ECO I', emoji:'🌱', req:['lit2','li3','fd3']},
-    {id:'fd4', name:'Fonología y Dicción IV', emoji:'🎤', req:['fd3']},
-    {id:'li4', name:'Lengua Inglesa IV', emoji:'📕', req:['li3']},
-    {id:'sis', name:'Seminario de Integración y Síntesis', emoji:'🧩', req:['td1','td2','td3']},
-    {id:'td4', name:'Taller de Docencia IV', emoji:'🎓', req:['td3']}
-  ]}
+const materias=[
+ {n:'Lengua Inglesa I',e:'pendiente'},
+ {n:'Fonética I',e:'pendiente'},
+ {n:'Didáctica',e:'pendiente'}
 ];
 
-// ================= ESTADO =================
-const state = JSON.parse(localStorage.getItem('malla-state')||'{}');
-const setState = (id,val)=>{state[id]=val; localStorage.setItem('malla-state',JSON.stringify(state)); render();};
-const isDone = id => state[id]==='Aprobada';
-
-// ================= LÓGICA =================
-const enabled = item => !item.req || item.req.every(r=>isDone(r));
-
-// ================= RENDER =================
-const app = document.getElementById('app');
-const progressBox = document.getElementById('progressBox');
+const cont=document.getElementById('materias');
 
 function render(){
-  app.innerHTML='';
-  let total = 0;
-  let done = 0;
-
-  data.forEach(block=>{
-    const y = document.createElement('section'); y.className='year';
-    y.innerHTML = `<h2>${block.year}</h2>`;
-    const list = document.createElement('div'); list.className='list';
-
-    block.items.forEach(it=>{
-      total++;
-      if(isDone(it.id)) done++;
-
-      const en = enabled(it);
-      const card = document.createElement('div');
-      card.className = 'card ' + (en?'enabled':'') + (state[it.id]==='Regular'?' regular':'') + (isDone(it.id)?' done':'');
-
-      card.innerHTML = `
-        <div>
-          <h3><span class="emoji">${it.emoji}</span>${it.name}</h3>
-          ${it.req?`<span class="badge">🔓 Requiere: ${it.req.join(', ')}</span>`:''}
-        </div>
-        <div>
-          <select ${en?'':'disabled'}>
-            <option value=""></option>
-            <option ${state[it.id]==='Pendiente'?'selected':''}>Pendiente</option>
-            <option ${state[it.id]==='Regular'?'selected':''}>Regular</option>
-            <option ${state[it.id]==='Aprobada'?'selected':''}>Aprobada</option>
-          </select>
-        </div>`;
-
-      card.querySelector('select').addEventListener('change',e=>setState(it.id,e.target.value));
-      list.appendChild(card);
-    });
-
-    y.appendChild(list);
-    app.appendChild(y);
-  });
-
-  progressBox.textContent = `Progreso: ${done} / ${total} materias aprobadas 🌿`;
+ cont.innerHTML='';
+ materias.forEach((m,i)=>{
+  const d=document.createElement('div');
+  d.className='materia '+m.e;
+  d.textContent=m.n+' · '+m.e;
+  d.onclick=()=>toggle(i);
+  cont.appendChild(d);
+ });
 }
-
+function toggle(i){
+ materias[i].e = materias[i].e==='pendiente'?'regular': materias[i].e==='regular'?'aprobada':'pendiente';
+ localStorage.setItem('materias',JSON.stringify(materias));
+ render();
+}
+function show(id){
+ document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+}
+const saved=localStorage.getItem('materias');
+if(saved){materias.splice(0,materias.length,...JSON.parse(saved));}
 render();
 </script>
 </body>
