@@ -6,24 +6,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 :root{
- --v1:#e8f5e9;--v2:#c8e6c9;--v3:#81c784;--v4:#388e3c;--gris:#e0e0e0;--beige:#f5f3ef;
+ --v1:#e8f5e9;--v2:#c8e6c9;--v3:#81c784;--v4:#388e3c;--beige:#f5f3ef;--gris:#e0e0e0;
 }
 body{margin:0;font-family:'Segoe UI',sans-serif;background:linear-gradient(120deg,var(--v1),var(--beige));}
-header{text-align:center;padding:20px;background:var(--v3);color:white;font-size:1.6rem;}
+header{text-align:center;padding:20px;background:var(--v3);color:white;font-size:1.7rem;}
 nav{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;padding:10px;background:var(--v2);} 
 nav button{border:none;padding:8px 14px;border-radius:20px;background:white;font-weight:600;cursor:pointer;}
-section{display:none;max-width:1100px;margin:auto;padding:20px;}
+section{display:none;max-width:1200px;margin:auto;padding:20px;}
 section.active{display:block;}
 .card{background:white;padding:15px;border-radius:18px;box-shadow:0 4px 10px rgba(0,0,0,.08);margin-bottom:15px;}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;}
 .materia{padding:12px;border-radius:14px;background:var(--v1);font-weight:600;cursor:pointer;}
 .aprobada{background:var(--v3);color:white;}
 .regular{background:var(--v2);} .pendiente{background:#eee;}
+.progress{height:18px;background:var(--gris);border-radius:10px;}
 .calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;}
-.day{background:white;border-radius:10px;padding:8px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,.05);} 
-.progress{height:20px;background:var(--gris);border-radius:10px;}
-.schedule{display:grid;grid-template-columns:80px repeat(5,1fr);gap:4px;font-size:.8rem;}
-.schedule div{background:white;padding:6px;border-radius:8px;min-height:35px;}
+.day{background:white;border-radius:10px;padding:6px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,.05);} 
+.month{margin-bottom:25px;}
+.month h3{text-align:center;color:var(--v4);} 
+.schedule{display:grid;grid-template-columns:70px repeat(5,1fr);gap:4px;font-size:.75rem;}
+.schedule div{background:white;padding:6px;border-radius:8px;min-height:32px;}
 footer{text-align:center;padding:15px;opacity:.7;}
 </style>
 </head>
@@ -39,16 +41,18 @@ footer{text-align:center;padding:15px;opacity:.7;}
 </nav>
 
 <section id="dash" class="active">
-<div class="card"><h2>✨ Bienvenida</h2><p>Este es tu espacio académico personal.</p></div>
+<div class="card"><h2>✨ Bienvenida, Lou</h2><p>Todo tu recorrido académico en un solo lugar.</p></div>
+<div class="card"><p>📊 Progreso general</p><div class="progress"></div></div>
+<div class="card"><p>🌱 "Paso a paso también es avanzar"</p></div>
 </section>
 
-<section id="malla"><h2>🧩 Malla completa</h2><div class="grid" id="materias"></div></section>
+<section id="malla"><h2>🧩 Malla</h2><div class="grid" id="materias"></div></section>
 
-<section id="notas"><h2>📝 Notas</h2><div class="card">Aquí luego cargaremos notas numéricas</div></section>
+<section id="notas"><h2>📝 Notas</h2><div class="card">Acá podrás cargar tus notas numéricas.</div></section>
 
-<section id="cal"><h2>📅 Calendario 2026</h2><div class="calendar" id="cal2026"></div></section>
+<section id="cal"><h2>📅 Calendario 2026</h2><div id="calendar"></div></section>
 
-<section id="prog"><h2>📊 Progreso</h2><div class="card"><p>Progreso general</p><div class="progress"></div></div></section>
+<section id="prog"><h2>📊 Progreso</h2><div class="card"><div class="progress"></div></div></section>
 
 <section id="horario"><h2>⏰ Horario semanal</h2><div class="schedule" id="hor"></div></section>
 
@@ -56,7 +60,10 @@ footer{text-align:center;padding:15px;opacity:.7;}
 
 <script>
 const materiasData=[
- 'Lengua Inglesa I','Lengua Inglesa II','Lengua Inglesa III','Fonética I','Fonética II','Gramática I','Gramática II','Didáctica','Práctica Docente I','Práctica Docente II','Literatura','Psicología','Pedagogía'
+ 'Lengua Inglesa I','Lengua Inglesa II','Lengua Inglesa III','Lengua Inglesa IV',
+ 'Fonética I','Fonética II','Fonética III','Gramática I','Gramática II','Gramática III',
+ 'Didáctica','Práctica Docente I','Práctica Docente II','Práctica Docente III',
+ 'Literatura I','Literatura II','Psicología','Pedagogía'
 ].map(n=>({n,e:'pendiente'}));
 
 const cont=document.getElementById('materias');
@@ -65,11 +72,19 @@ function save(){localStorage.setItem('materias',JSON.stringify(materiasData));}
 const saved=localStorage.getItem('materias');if(saved){materiasData.splice(0,materiasData.length,...JSON.parse(saved));}
 render();
 
-// calendario simple 2026
-const cal=document.getElementById('cal2026');for(let i=1;i<=31;i++){const d=document.createElement('div');d.className='day';d.textContent=i;cal.appendChild(d);} 
+// Calendario 2026
+const calendar=document.getElementById('calendar');
+const months=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+months.forEach((m)=>{
+ const box=document.createElement('div');box.className='month';box.innerHTML='<h3>'+m+'</h3>';
+ const grid=document.createElement('div');grid.className='calendar';
+ for(let i=1;i<=31;i++){const d=document.createElement('div');d.className='day';d.textContent=i;grid.appendChild(d);} 
+ box.appendChild(grid);calendar.appendChild(box);
+});
 
-// horario
-const hor=document.getElementById('hor');const horas=[7,8,9,10,11,12,13,14,15,16,17];hor.append('');['L','M','X','J','V'].forEach(d=>hor.append(d));horas.forEach(h=>{hor.append(h+':00');for(let i=0;i<5;i++){hor.append('');}});
+// Horario
+const hor=document.getElementById('hor');hor.append('');['L','M','X','J','V'].forEach(d=>hor.append(d));
+for(let h=7;h<=17;h++){hor.append(h+':00');for(let i=0;i<5;i++){const c=document.createElement('div');c.contentEditable=true;hor.append(c);}}
 
 function show(id){document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
 </script>
